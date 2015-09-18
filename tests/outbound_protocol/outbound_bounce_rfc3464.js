@@ -1,15 +1,11 @@
 'use strict';
 
-// This test file is executed by tests/outbound_protocol.js (see there)
-//
-// Important to understand the code: This is file is - for running the test - appended to outbound.js.
-
-
-test.expect(4);
+test.expect(7);
 
 // What is tested:
 // A simple SMTP conversation is made
-// At one point, the mocked remote SMTP says "5XX", and we test that the HMailItem.bounce function gets called
+// At one point, the mocked remote SMTP says "5XX"
+// and we test that outbound.send_email is called with a RFC3464 bounce message
 
 // we copy over here "test_queue_dir" from vm-sandbox to the queue_dir back
 // (queue_dir is outbound-private var introduced at the beginning of outbound.js)
@@ -33,28 +29,27 @@ util_hmailitem.createHMailItem(
             test.done();
             return;
         }
+        if (!hmail.todo) {
+            hmail.once('ready', function () {
+                runBasicSmtpConversation(hmail);
+            });
+        }
         else {
             runBasicSmtpConversation(hmail);
         }
     }
 );
 
-HMailItem.prototype.bounce = function (err, opts) {
-    test.ok(true, 'HMail bounce called');
+exports.send_email = function (from, to, contents, cb, opts) {
+    test.ok(true, 'outbound.send_email called');
+    // console.log(contents);
+    test.ok(contents.match(/^Content-type: message\/delivery-status/m), 'its a bounce report');
+    test.ok(contents.match(/^Final recipient: rfc822;recipient@domain/m), 'bounce report contains final recipient');
+    test.ok(contents.match(/^Status: 5\.0\.0/m), 'bounce report contains status field with our ext. smtp code');
     test.done();
-}
+};
 
 function runBasicSmtpConversation(hmail) {
-    if (!hmail.todo) {
-        hmail.once('ready', function () {
-            _runBasicSmtpConversation(hmail);
-        });
-    }
-    else {
-        _runBasicSmtpConversation(hmail);
-    }
-}
-function _runBasicSmtpConversation(hmail) {
     var mock_socket = mock_sock.connect('testhost', 'testport');
     mock_socket.writable = true;
 
@@ -77,7 +72,7 @@ function _runBasicSmtpConversation(hmail) {
     ];
 
     util_hmailitem.playTestSmtpConversation(hmail, mock_socket, test, testPlaybook, function() {
-        // test done covered in stubbed HMailItem.bounce
+        // test done covered in stubbed outbound.send_email
     });
 
 }

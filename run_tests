@@ -3,7 +3,7 @@
 "use strict";
 
 try {
-    var reporter = require('nodeunit').reporters.default;
+    var reporter = require('nodeunit').reporters.verbose;
 }
 catch(e) {
     console.log("Error: " + e.message);

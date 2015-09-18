@@ -76,6 +76,7 @@ exports.createHMailItem = function (outbound_context, options, callback) {
 exports.playTestSmtpConversation = function(hmail, socket, test, playbook, callback) {
     var testmx = {
         bind_helo: "haraka.test",
+        exchange: "remote.testhost",
     };
     hmail.try_deliver_host_on_socket(testmx, 'testhost', 'testport', socket);
 
