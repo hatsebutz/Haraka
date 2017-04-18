@@ -6,8 +6,8 @@ var path = require('path');
 exports.get_tls_options = {
     setUp : function (done) {
         process.env.HARAKA_TEST_DIR=path.resolve('tests');
-        this.outbound = require('../../outbound');
-        this.get_tls_options = require('../../outbound/_get_tls_options');
+        this.outbound = require('../outbound/index');
+        this.get_tls_options = require('../outbound/_get_tls_options');
         done();
     },
     tearDown: function (done) {
