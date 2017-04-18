@@ -1,5 +1,13 @@
 'use strict';
 
+// Testing bounce email contents related to errors occuring during STMP dialog
+
+// About running the tests:
+// - Making a folder for queuing files
+// - Creating a HMailItem instance using fixtures/util_hmailitem
+// - Talk some STMP in the playbook
+// - Test the outcome by replacing trigger functions with our testing code (outbound.send_email, HMailItem.temp_fail, ...)
+
 require('../configfile').watch_files = false;
 var fs          = require('fs');
 var path        = require('path');
