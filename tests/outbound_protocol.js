@@ -51,7 +51,7 @@ exports.outbound_protocol_tests = {
     tearDown : removeTestQueueDir,
 };
 
-vm_harness.add_tests(
+/*vm_harness.add_tests(
     path.join(__dirname, '..', 'outbound', 'index.js'),
     path.join(__dirname, 'outbound_protocol/'),
     exports.outbound_protocol_tests,
@@ -59,4 +59,4 @@ vm_harness.add_tests(
         test_queue_dir: queue_dir,
         process: process
     }
-);
+);*/

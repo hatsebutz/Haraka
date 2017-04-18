@@ -27,6 +27,7 @@ if (process.argv[2]) {
 else {
     reporter.run([
         'tests',
+        'tests/outbound',
         'tests/plugins',
         'tests/plugins/auth',
         'tests/plugins/queue'
