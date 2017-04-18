@@ -82,7 +82,7 @@ exports.createHMailItem = function (outbound_context, options, callback) {
 
     var hmails = [];
     var ok_paths = [];
-    outbound_context.exports.process_delivery(ok_paths, todo, hmails, function (err) {
+    outbound_context.outbound.process_delivery(ok_paths, todo, hmails, function (err) {
         if (err) {
             callback('process_delivery error: ' + err);
             return;
