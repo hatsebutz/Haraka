@@ -15,7 +15,6 @@ var util_hmailitem = require('./fixtures/util_hmailitem');
 var TODOItem    = require('../outbound/todo');
 var HMailItem    = require('../outbound/hmail');
 var outbound    = require('../outbound');
-var config      = require('../config');
 var mock_sock   = require('./fixtures/line_socket');
 
 var outbound_context = {
